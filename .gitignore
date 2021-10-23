@@ -1,2 +1,3 @@
 python/lib/
 python/logs/**.*
+python/__pycache__/
