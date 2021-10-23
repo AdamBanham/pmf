@@ -34,7 +34,9 @@ no_intervals_all = 100
 
 variant = xes_importer.Variants.ITERPARSE
 paras = {variant.value.Parameters.MAX_TRACES: 1000000000}
-log = xes_importer.apply(dataset + '.xes', parameters=paras)
+# make log path
+log_path = os.path.join("..","datasets",dataset+".xes")
+log = xes_importer.apply(log_path, parameters=paras)
 
 # read and encode data
 activity_names = pm4py.get_attribute_values(log, 'concept:name')
