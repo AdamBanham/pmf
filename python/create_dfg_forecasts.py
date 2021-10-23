@@ -1,6 +1,7 @@
 import pm4py
 import json
 import os
+from tqdm import tqdm
 from pm4py.objects.log.importer.xes import importer as xes_importer
 import numpy as np
 from math import sqrt
@@ -160,8 +161,12 @@ for act, a in act_map.items():
 with open(f'results_{dataset}_nopairs_{no_pairs}_nointervals_{str(no_intervals)}_{agg_type}.csv', 'w') as technique_fold_results:
     technique_fold_results.write('intervals,technique,fold,horizon,cosine,rmse,er_pred,er_actual\n')
 
+    # display progress 
+    pbar = tqdm(None,desc="Evaluating..",total= len(techniques) * len(list(range(0 , horizon))) * no_folds)
+
     for technique in techniques:
-        print(f'Technique {technique}')
+        # print(f'Technique {technique}')
+        pbar.set_description(f"Eval :: {technique}")
         dfg_result_matrix_ar = dfg_result_matrix[technique]
         results_selected = np.zeros((len(chosen_pairs), no_folds, horizon))
         actual_selected = np.zeros((len(chosen_pairs), no_folds, horizon))
@@ -171,6 +176,7 @@ with open(f'results_{dataset}_nopairs_{no_pairs}_nointervals_{str(no_intervals)}
             actual_selected[p] = dfg_actual_matrix[pair[0], pair[1], ::, ::]
 
         for h in range(0, horizon):
+            pbar.set_description(f"Eval :: {technique} :: h={h}")
             for fold in range(0, no_folds):
                 # print(f'Fold {fold} - horizon {h}')
 
@@ -239,3 +245,5 @@ with open(f'results_{dataset}_nopairs_{no_pairs}_nointervals_{str(no_intervals)}
                 rmse = sqrt(mean_squared_error(actuals, results))
 
                 technique_fold_results.write(f'{no_intervals},{technique},{str(fold)},{str(h)},{cosine},{rmse},{er_technique},{er_actual}\n')
+                pbar.update(1)
+    pbar.close()
