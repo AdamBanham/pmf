@@ -1,6 +1,8 @@
 import numpy as np
 import pm4py
 import pytz
+import os
+
 from datetime import datetime
 
 from pm4py.algo.discovery.dfg.variants import native as dfg_factory
@@ -120,7 +122,10 @@ def read_data_equisize(no_intervals, interval_width, sorted_aps, act_map, log, d
             if len(new_trace) > 0:
                 # new_trace.append(end)
                 new_log.append(new_trace)
-
+        # check that logs dir exists
+        if ( not os.path.exists(os.path.join(".","logs"))):
+            os.mkdir(os.path.join(".","logs"))
+            
         exporter.apply(new_log, './logs/' + dataset + '_log_interval_' + str(i) + '-'
                        + str(no_intervals) + '_equisize.xes')
 
