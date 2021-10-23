@@ -8,6 +8,7 @@ pm4py = "*"
 statsmodels = "*"
 scikit-learn = "*"
 numpy = "*"
+arch = "*"
 
 [dev-packages]
 
