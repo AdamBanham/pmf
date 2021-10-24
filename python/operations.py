@@ -1,4 +1,5 @@
 import subprocess
+import sys
 
 
 def calculate_entropic_relevance(log_name, dfg_name):
@@ -18,7 +19,7 @@ def calculate_entropic_relevance(log_name, dfg_name):
         args.append(predstring)
 
         # print(args)
-        result = subprocess.check_output(args)
+        result = subprocess.check_output(args, stderr=sys.stderr)
         result_s = float(result)
     except:
         result_s = 'NA'
