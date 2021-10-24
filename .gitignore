@@ -1,3 +1,10 @@
 python/lib/
 python/logs/**.*
 python/__pycache__/
+datasets/**.xes
+
+# hide cached data from runs
+python/**.npy
+python/**.txt
+python/**.csv
+python/temp.json
